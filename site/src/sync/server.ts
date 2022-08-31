@@ -1,6 +1,6 @@
 import type { List, PersonalList, PersonalOrSharedList, PersonalParams, SharedParams } from "../types.js";
 
-export const API_URL = `http://localhost:3000/api`;
+export const API_URL = `${window.location.origin}/api`;
 
 export async function getSharedList(sharedParams: SharedParams): Promise<List> {
     const urlSearchParams = new URLSearchParams();
