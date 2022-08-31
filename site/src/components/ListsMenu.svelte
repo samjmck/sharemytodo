@@ -128,6 +128,7 @@
         right: 0;
         width: 15em;
         height: 100vh;
+        height: -webkit-fill-available;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
