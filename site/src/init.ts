@@ -65,21 +65,11 @@ export async function init() {
         // New user, create first list
         } else {
             const newList: List = {
-                title: "test",
+                title: "",
                 items: [{ content: "", checked: false }],
             };
-            // const { uuid: newUuid, jwt: newJwt } = await createList(newList);
-            // const newLists = { [newUuid]: newJwt };
-            let { uuid: newUuid1, jwt: newJwt1 } = await createList(newList);
-            let { uuid: newUuid2, jwt: newJwt2 } = await createList(newList, newJwt1);
-            let { uuid: newUuid3, jwt: newJwt3 } = await createList(newList, newJwt2);
-            let { uuid: newUuid, jwt: newJwt } = await createList(newList, newJwt3);
-            const newLists = {
-                [newUuid]: newList,
-                [newUuid1]: JSON.parse(JSON.stringify(newList)),
-                [newUuid2]: JSON.parse(JSON.stringify(newList)),
-                [newUuid3]: JSON.parse(JSON.stringify(newList)),
-            };
+            const { uuid: newUuid, jwt: newJwt } = await createList(newList);
+            const newLists = { [newUuid]: newList };
 
             setCachedJwt(newJwt);
             setCachedCurrentListUuid(newUuid);
