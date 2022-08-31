@@ -1,0 +1,14 @@
+name = "sharemytodo"
+main = "src/index.ts"
+compatibility_date = "2022-07-05"
+node_compat = true
+
+kv_namespaces = [
+    { binding = "SHAREMYTODO_KV", id = "b62e88a9b79d487e9c29c12bc3adce19", preview_id = "5e0684308609498db78c3e73dce2d2d9" }
+]
+
+[env.dev]
+vars = { JWT_SECRET = "test", MAC_KEY = "test" }
+kv_namespaces = [
+    { binding = "SHAREMYTODO_KV", id = "b62e88a9b79d487e9c29c12bc3adce19", preview_id = "5e0684308609498db78c3e73dce2d2d9" }
+]

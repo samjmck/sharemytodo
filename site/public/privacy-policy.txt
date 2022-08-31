@@ -1,0 +1,27 @@
+sharemytodo.com Privacy Policy
+This Privacy Policy describes how your personal information is collected, used, and shared when you utilise the services from sharemytodo.com (the “Service” or "Services").
+
+1. Personal information we collect
+A. Registration
+Registration is done through a third-party service. Details stored will include an email address as well as any other metadata which is given permission to during the authorization process with this third-party.
+
+B. Payment processing
+When submitting payment or financial information to the Service, the information will be stored on our third-party payment processor and not on our servers. We do, however, have access to basic subscriber information through our third-party payment processor.
+
+C. Third-party services integration
+Some of the main Services we provide rely on third-party services. When you allow access to link your third-party account to the Service, we will store an authentication token provided by that third-party. If you are not satisfied with the information that is available to us, you should visit the privacy settings page of that third-party. Our access from that third-party can be revoked at any time you choose.
+
+2. How we use information
+sharemytodo.com uses the information we collect in the following ways:
+
+- Email address
+This is used to identify your account.
+
+3. How we share information
+Your information is kept in our database and not shared with anyone. We do not use or participate in any form of advertising meaning your data will also not be used for those purposes.
+
+4. Changes
+We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal or regulatory reasons.
+
+5. Contact us
+For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by emailing contact@sharemytodo.com.
