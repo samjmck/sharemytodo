@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [svelte()],
   server: {
     proxy: {
-      "/api" :{
+      "/api": {
         target: "http://localhost:8787",
         changeOrigin: true,
         rewrite: path => path.replace("/api", ""),
