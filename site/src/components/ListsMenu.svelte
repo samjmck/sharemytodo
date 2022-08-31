@@ -183,6 +183,7 @@
     svg.toggle-side-menu {
         display: none;
         cursor: pointer;
+        margin: 1em 0;
     }
     @media screen and (max-width: 1175px) {
         div.background-overlay.open {
