@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { openListsMenu, openShareDialog } from "../stores.js";
+    import { openListsMenu, openShareDialog } from "../stores";
 </script>
 
 <div>

@@ -1,4 +1,4 @@
-import type { List, PersonalList, PersonalOrSharedList } from "../types.js";
+import type { List } from "../types.js";
 
 let cachedCurrentListUuid: string;
 let cachedJwt: string;
@@ -22,10 +22,6 @@ export function setCachedJwt(jwt: string) {
 
 export function getCachedLists() {
     return cachedLists;
-}
-
-export function getCachedList(uuid: string): List {
-    return cachedLists[uuid];
 }
 
 export function setCachedLists(lists: { [uuid: string]: List }) {

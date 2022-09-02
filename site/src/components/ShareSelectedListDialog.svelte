@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { getCachedJwt } from "../sync/cache.js";
-    import { getSharePath } from "../sync/server.js";
-    import { openShareDialog, selectedList } from "../stores.js";
+    import { getCachedJwt } from "../sync/cache";
+    import { getSharePath } from "../sync/server";
+    import { openShareDialog, selectedList } from "../stores";
     import { isShared } from "../types.js";
 
-    let notWritableUrl = "";
-    let writableUrl = "";
+    let notWritableUrl;
+    let writableUrl;
     $: {
         if(!isShared($selectedList)) {
             if($selectedList.uuid) {
@@ -20,11 +20,12 @@
             }
         }
     }
-    let messageHidden = true;
+
+    let isCopiedMessageHidden = true;
     function showCopiedMessage() {
-        messageHidden = false;
+        isCopiedMessageHidden = false;
         setTimeout(() => {
-            messageHidden = true;
+            isCopiedMessageHidden = true;
         }, 5000);
     }
     function copyNotWritableUrl() {
@@ -46,13 +47,13 @@
             <span>Share list</span>
             <button class="close" on:click={close}>Close</button>
         </div>
-        {#if notWritableUrl !== ""}
+        {#if notWritableUrl}
             <button class="copy-link" on:click={copyNotWritableUrl}>Copy link to non-editable version</button>
         {/if}
-        {#if writableUrl !== ""}
+        {#if writableUrl}
             <button class="copy-link" on:click={copyWritableUrl}>Copy link to editable version</button>
         {/if}
-        <p class="message" class:hidden={messageHidden}>Link copied!</p>
+        <p class="message" class:hidden={isCopiedMessageHidden}>Link copied!</p>
     </div>
 </div>
 

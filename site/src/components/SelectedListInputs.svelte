@@ -3,28 +3,32 @@
     import SelectedListItem from './SelectedListItem.svelte';
     import type { LinkedItem, Item } from "../types";
     import { selectedList, lists } from "../stores";
-    import { getCachedJwt, getCachedLists, updateCachedList } from "../sync/cache.js";
-    import { updateList } from "../sync/server.js";
-    import { setLocalStorageLists } from "../sync/local-storage.js";
+    import { getCachedJwt, getCachedLists, updateCachedList } from "../sync/cache";
+    import { updateList } from "../sync/server";
+    import { setLocalStorageLists } from "../sync/local-storage";
     import { isShared } from "../types";
 
-    let list = $selectedList.list;
-    let writable = true;
+    let list;
+    let writable;
     $: {
+         list = $selectedList.list;
          if(isShared($selectedList)) {
              writable = $selectedList.writable;
          } else {
+             // Private lists are always writable
              writable = true;
          }
-        list = $selectedList.list;
     }
 
     let timeoutId = -1;
-    async function update() {
+    // Update cache, local storage and server with new list values
+    async function sync() {
         if(!isShared($selectedList)) {
             lists.setList($selectedList.uuid, list);
             updateCachedList($selectedList.uuid, list);
+            // Clear timeout so we don't have overlapping updates
             clearTimeout(timeoutId);
+            // Delay local storage update so we don't block the main thread while typing
             timeoutId = setTimeout(() => {
                 updateList(getCachedJwt(), $selectedList);
                 setLocalStorageLists(getCachedLists());
@@ -40,8 +44,9 @@
         }
     }
 
-    let linkedItems: Map<Item, LinkedItem> = new Map();
-    let firstLinkedListElement = list.items[0];
+    let linkedItems: Map<Item, LinkedItem>;
+    let firstLinkedListElement;
+    // Put in reactive block so linkedItems gets updated every time list (items) changes
     $: {
         linkedItems = new Map();
         firstLinkedListElement = list.items[0];
@@ -60,14 +65,15 @@
         }
     }
 
-    function getToDoItemsInOrder(): Item[] {
-        const toDoItems = [firstLinkedListElement];
+    // Converts linked list to array of items
+    function getListItemsInOrder(): Item[] {
+        const items = [firstLinkedListElement];
         let linkedItem = linkedItems.get(firstLinkedListElement);
         while(linkedItem.nextLinkedItem !== undefined) {
-            toDoItems.push(linkedItem.nextLinkedItem.item);
+            items.push(linkedItem.nextLinkedItem.item);
             linkedItem = linkedItem.nextLinkedItem;
         }
-        return toDoItems;
+        return items;
     }
 
 
@@ -88,7 +94,7 @@
         };
         currentLinkedItem.nextLinkedItem = newLinkedItem;
         linkedItems.set(newToDoItem, newLinkedItem);
-        list.items = getToDoItemsInOrder();
+        list.items = getListItemsInOrder();
     }
     function deleteItem(currentItem: Item) {
         const currentLinkedItem = linkedItems.get(currentItem);
@@ -102,7 +108,7 @@
         if(firstLinkedListElement === currentItem) {
             currentLinkedItem.nextLinkedItem.item;
         }
-        list.items = getToDoItemsInOrder();
+        list.items = getListItemsInOrder();
     }
 
     function focusPreviousItem(currentItem: Item) {
@@ -145,7 +151,7 @@
     <SelectedListTitle bind:value={list.title}
                        disabled={!writable}
                        focused={focusedTitle}
-                       onChange={() => update()}
+                       onChange={() => sync()}
                        onEnter={() => focusFirstItem()}
                        goForward={() => focusFirstItem()}
                        placeholder="Write a title for your list..." />
@@ -156,7 +162,7 @@
                               disabled={!writable}
                               focused={focusedToDoItem === currentItem}
                               focusedCaretAtStart={focusedCaretAtStart}
-                              onChange={() => update()}
+                              onChange={() => sync()}
                               onEnter={() => onEnter(currentItem)}
                               onBackspace={() => onBackspace(currentItem)}
                               goBack={() => focusPreviousItem(currentItem)}

@@ -32,6 +32,9 @@
     }
 
     let previousContent = content;
+    // Check if content has actually changed as opposed to calling onChange() on
+    // e.g. keydown event, when some keys (like arrow left or right) do not actually
+    // change the content
     $: {
         if(content !== previousContent) {
             onChange();
@@ -44,8 +47,10 @@
             if(focused) {
                 textAreaElement.focus();
                 if(focusedCaretAtStart) {
+                    // Focus caret at start. Sign of user moving forward from an item to this item
                     textAreaElement.setSelectionRange(0, 0);
                 } else {
+                    // Focus caret at end. Sign of user moving back from an item to this item
                     textAreaElement.setSelectionRange(textAreaElement.value.length, textAreaElement.value.length);
                 }
             } else {

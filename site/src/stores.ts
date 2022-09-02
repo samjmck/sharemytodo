@@ -1,4 +1,4 @@
-import { Writable, writable } from "svelte/store";
+import { writable } from "svelte/store";
 import type { List, PersonalOrSharedList } from "./types";
 
 export const shouldUpdate = writable(false);

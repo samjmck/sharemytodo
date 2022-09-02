@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { List } from "../types.js";
-    import { lists, selectedList, openListsMenu } from "../stores.js";
+    import type { List } from "../types";
+    import { lists, selectedList, openListsMenu } from "../stores";
     import {
         getCachedCurrentListUuid,
         getCachedJwt,
@@ -8,23 +8,23 @@
         setCachedCurrentListUuid,
         setCachedJwt,
         setCachedLists,
-    } from "../sync/cache.js";
+    } from "../sync/cache";
     import {
         setLocalStorageCurrentListUuid,
         setLocalStorageJwt,
         setLocalStorageLists
-    } from "../sync/local-storage.js";
-    import { createList, deleteList } from "../sync/server.js";
+    } from "../sync/local-storage";
+    import { createList, deleteList } from "../sync/server";
 
     let listsArray: [string, List][];
     $: {
         listsArray = <[string, List][]> Object.entries($lists);
     }
 
-    function changeCurrentList(newCurrentListUuid: string, newCurrentList: List) {
-        $selectedList = { uuid: newCurrentListUuid, list: newCurrentList };
-        setCachedCurrentListUuid(newCurrentListUuid);
-        setLocalStorageCurrentListUuid(newCurrentListUuid);
+    function changeSelectedList(newSelectedListUuid: string, newSelectedList: List) {
+        $selectedList = { uuid: newSelectedListUuid, list: newSelectedList };
+        setCachedCurrentListUuid(newSelectedListUuid);
+        setLocalStorageCurrentListUuid(newSelectedListUuid);
         $openListsMenu = !$openListsMenu;
     }
 
@@ -34,7 +34,7 @@
             items: [{ content: "", checked: false }],
         };
 
-        const { uuid, jwt } = await createList(emptyList, getCachedJwt());
+        const { uuid, jwt: newJwt } = await createList(emptyList, getCachedJwt());
 
         lists.setList(uuid, emptyList);
 
@@ -42,8 +42,8 @@
         cachedLists[uuid] = emptyList;
         setCachedLists(cachedLists);
         setLocalStorageLists(cachedLists);
-        setCachedJwt(jwt);
-        setLocalStorageJwt(jwt);
+        setCachedJwt(newJwt);
+        setLocalStorageJwt(newJwt);
 
         $selectedList = {
             uuid,
@@ -57,7 +57,7 @@
 
     async function promptDelete(uuid: string, listTitle: string) {
         if(confirm(`Confirm you would like to delete "${listTitle}"`)) {
-            const jwt = await deleteList(getCachedJwt(), { uuid });
+            const newjWt = await deleteList(getCachedJwt(), { uuid });
 
             lists.deleteList(uuid);
 
@@ -65,33 +65,36 @@
             delete cachedLists[uuid];
             setCachedLists(cachedLists);
             setLocalStorageLists(cachedLists);
-            setCachedJwt(jwt);
-            setLocalStorageJwt(jwt);
+            setCachedJwt(newjWt);
+            setLocalStorageJwt(newjWt);
 
-            const listUuids = Object.keys(cachedLists);
-            const listsCount = listUuids.length;
+            const uuids = Object.keys(cachedLists);
+            const listsCount = uuids.length;
             if(listsCount === 0) {
                 await createEmptyList();
             } else {
                 const currentListUuid = getCachedCurrentListUuid();
+                const firstUuid = uuids[0];
+                const firstList = cachedLists[firstUuid]
                 if(currentListUuid === uuid) {
                     $selectedList = {
-                        uuid: listUuids[0],
-                        list: cachedLists[listUuids[0]],
+                        uuid: firstUuid,
+                        list: firstList,
                     };
-                    setCachedCurrentListUuid(listUuids[0]);
-                    setLocalStorageCurrentListUuid(listUuids[0]);
+                    setCachedCurrentListUuid(firstUuid);
+                    setLocalStorageCurrentListUuid(firstUuid);
                 }
             }
         }
     }
 
     function handleLiClick(event: PointerEvent, uuid: string, list: List) {
-        // In this case, we are clicking on only the "X" element (to delete a list)
+        // In this case we are clicking on only the "X" element (to delete a list)
         if((<Element> event.target).classList.contains("delete-item")) {
             promptDelete(uuid, list.title);
+        // In this case we are clicking on the list itself with the intention to select it
         } else {
-            changeCurrentList(uuid, list);
+            changeSelectedList(uuid, list);
         }
     }
 </script>

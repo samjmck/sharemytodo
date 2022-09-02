@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { openShareDialog } from "../stores.js";
+    import { openShareDialog } from "../stores";
 
     export let value: string;
     export let placeholder: string;
