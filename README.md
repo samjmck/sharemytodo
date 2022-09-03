@@ -25,6 +25,7 @@ kv_namespaces = [
 ]
 ```
 Remember to replace the ID with the ID in the output of the previous command.
+
 6. Deploy the code to Cloudflare with `wrangler deploy --name sharemytodo`
 7. Generate random two random strings with `openssl rand -hex 32`. Visit the dashboard of your newly created Cloudflare Worker and go the environment variable settings. Set the first random string as `JWT_SECRET` and the second random string as `MAC_KEY`.
 
@@ -49,8 +50,6 @@ Making the lists shareable seemed sufficiently challenging yet and, if designed 
 This is when JSON Web Tokens (JWT) come in handy. JWTs consist of two things: some data and a signature of that data. Only the server is able to sign the data. If a client changes their JWT's data, the server will notice that the signature doesn't match the data. A server asking a client to store a JWT is effectively outsourcing the work of storing data meaning. This is ideal for serverless functions that ideally want to do as little work as possible.
 
 In sharemytodo's case, a client's JWT's data consists of a list of references to the to-do's they own. If a client wants to create a new list, they send a request to the server and the server will response with an updated list of references as well as an updated signature. If the client tries to modify their list of references to add the reference of a list they don't own, the signature won't match and future requests will be denied by the server.
-
-A JWT is effectively a glorified Message Authentication Code behind a nice standard.
 
 ## Problems
 
