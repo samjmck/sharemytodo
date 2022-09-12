@@ -49,6 +49,7 @@ async function createList(request: Request): Promise<Response> {
             headers: {
                 "Content-Type": "application/json",
             },
+            status: 201,
         });
     // User already exists, create list and add to array of list uuids
     } else {
@@ -63,7 +64,12 @@ async function createList(request: Request): Promise<Response> {
             return new Response(JSON.stringify({
                 uuid: listUuid,
                 jwt: await signJWT(jwtData),
-            }));
+            }), {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 201,
+            });
         } catch (error) {
             return new Response(null, { status: 401 });
         }
