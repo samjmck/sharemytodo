@@ -8,7 +8,7 @@ A to-do list server and website which also allows you to share your lists with o
 
 The server code can easily be adapted to work with other JavaScript runtimes or serverless platforms that implement web APIs such as Deno. As for the storage, Workers KV is a fairly simple key-value database. It shouldn't be too difficult to switch it out with another key-value database such as Redis. The website is statically generated so can be hosted on any platform or host that supports static files.
 
-See a description of the backend's endpoints [here](/cloudflare-worker/README.md) and a motivation for the site's technical design [here](/site/README.md).
+See a description of the backend's endpoints [here](/cloudflare-worker/README.md) and a motivation for the site's technical design [here](/site/README.md). I also wrote a [blog post](https://samjmck.com/en/blog/stateless-serverless-to-do-app/#whats-so-interesting-about-serverless-computing) about the stateless design of the app.
 
 ## Getting started
 
