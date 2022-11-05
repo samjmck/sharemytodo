@@ -37,7 +37,7 @@ Note that you can deploy the site to any web server that hosts static files. I u
 
 1. Change directory to the site with `cd site`
 2. Run `npm install`
-3. Change the API URL in `src/server.ts` to the URL of the Cloudflare Worker
+3. Change the API URL in `src/sync/server.ts` to the URL of the Cloudflare Worker
 3. Run `npm run build`
 4. The files of the web app are in the `dist` folder
 

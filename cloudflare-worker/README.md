@@ -11,7 +11,7 @@ To see how to host and build this, see the root [`README.md`](/README.md).
 Responds with status code `201` and the following JSON with `uuid` being the new list's UUID and `jwt` being the new JWT containing the new list's UUID:
 
 ```ts
-{
+interface Response {
 	uuid: string;
 	jwt: string;
 }
@@ -24,7 +24,7 @@ If the `Authorization` header is set containing a valid JWT in the `Bearer {jwt}
 The body should be in JSON and have this schema:
 
 ```ts
-{
+interface Body {
 	uuid?: string;
     writable?: true;
     mac?: string;
@@ -47,7 +47,7 @@ The response will have status code `200` if the request was successful.
 To view a personal list, the query parameter `uuid` is required with the `Authorization` header. For a shared list, `uuid`, `writable` and `mac` query parameters are required with `writable` being a `1` or `0`. The JSON response will have the following schema:
 
 ```ts
-{
+interface Response {
 	title: string;
 	items: {
 		content: string;
@@ -63,7 +63,7 @@ To view a personal list, the query parameter `uuid` is required with the `Author
 The body should be in JSON with the following schema:
 
 ```ts
-{
+interface Body {
 	uuid: string;
 	writable: boolean;
 }
