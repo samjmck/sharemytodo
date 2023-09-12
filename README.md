@@ -8,7 +8,21 @@ A to-do list server and website which also allows you to share your lists with o
 
 The server code can easily be adapted to work with other JavaScript runtimes or serverless platforms that implement web APIs such as Deno. As for the storage, Workers KV is a fairly simple key-value database. It shouldn't be too difficult to switch it out with another key-value database such as Redis. The website is statically generated so can be hosted on any platform or host that supports static files.
 
-See a description of the backend's endpoints [here](/cloudflare-worker/README.md) and a motivation for the site's technical design [here](/site/README.md). I also wrote a [blog post](https://samjmck.com/en/blog/stateless-serverless-to-do-app/#whats-so-interesting-about-serverless-computing) about the stateless design of the app.
+## Navigation
+
+1. [Getting started](#getting-started)  
+   1.1 [Deploying the Cloudflare Worker](#deploying-the-cloudflare-worker)  
+   1.2 [Deploying the site](#deploying-the-site)  
+2. [Problem domain](#problem-domain)
+3. [Solutions](#solutions)  
+4. [Key-value database design](#key-value-database-design)  
+   4.1 [Key](#key)  
+   4.2 [Value](#value)  
+5. [Why I made this project](#why-i-made-this-project)  
+
+- [Description of backend endpoints](/cloudflare-worker/README.md)  
+- [Motivation for static site's design](/site//README.md)  
+- [Blog post discussing serverless computing using this project](https://samjmck.com/en/blog/stateless-serverless-to-do-app/#whats-so-interesting-about-serverless-computing)  
 
 ## Getting started
 
@@ -43,7 +57,7 @@ Note that you can deploy the site to any web server that hosts static files. I u
 
 Configure the above commands on the platform that you are using.
 
-## Problems
+## Problem domain
 
 Given a server and a key-value database, these are the problems we are trying to solve:
 1. A user can have multiple to-do lists, each list contains multiple to-do items
@@ -84,7 +98,7 @@ type List = {
 }
 ```
 
-## Why?
+## Why I made this project
 
 I have been playing around with different serverless platforms for a while now. I was trying to think of a project to further experiment with these technologies. To-do lists apps are what "hello world" programs are to web frameworks, so I wanted to find something more challenging but still simple.
 
